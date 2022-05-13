@@ -1,0 +1,284 @@
+1. Создайте запрос для вывода всех товаров
+назначение которых «Кухня»
+select t.id_texniki, t.tip, t.Nazvanie
+from Texnika t
+where
+t.tip like 'Kyxnya'
+
+
+2.Выберите номера и фамилий всех клиентов
+с группировкой по количеству покупаеммых групп товаров
+select p.id_pokypateli, t.id_texniki, p.FIO, t.Nazvanie
+from pokypateli p, Texnika t
+
+3.Выберите все товары. Исключите товары, которые так и не купили.
+select p.nazvanieproduct , po.FIO,
+( select count(1) from product p ) as vse,
+( select count(1) from product p  ) - count(p.id_product) as nekup
+from 
+product p, pokypateli po, Texnika t
+where
+t.id_product = p.id_product and 
+t.id_pokypateli = po.id_pokypateli
+
+
+group by p.nazvanieproduct , p.FIO
+-- phpMyAdmin SQL Dump
+-- version 4.9.7
+-- https://www.phpmyadmin.net/
+--
+-- Хост: localhost
+-- Время создания: Май 13 2022 г., 18:44
+-- Версия сервера: 5.7.21-20-beget-5.7.21-20-1-log
+-- Версия PHP: 5.6.40
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- База данных: `bagdanzp_sharono`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pokypateli`
+--
+-- Создание: Май 13 2022 г., 14:42
+-- Последнее обновление: Май 13 2022 г., 14:43
+--
+
+DROP TABLE IF EXISTS `pokypateli`;
+CREATE TABLE `pokypateli` (
+  `id_pokypateli` int(25) NOT NULL,
+  `FIO` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `pokypateli`
+--
+
+INSERT INTO `pokypateli` (`id_pokypateli`, `FIO`) VALUES
+(1, 'Vasya Ivano'),
+(2, 'Petya Petro'),
+(3, 'Alina Moroz'),
+(4, 'Vasya Ivano'),
+(5, 'Petya Petro'),
+(6, 'Alina Moroz');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `postavshik`
+--
+-- Создание: Май 13 2022 г., 14:42
+-- Последнее обновление: Май 13 2022 г., 14:44
+--
+
+DROP TABLE IF EXISTS `postavshik`;
+CREATE TABLE `postavshik` (
+  `id_postavshika` int(25) NOT NULL,
+  `nazvanie` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `postavshik`
+--
+
+INSERT INTO `postavshik` (`id_postavshika`, `nazvanie`) VALUES
+(1, 'JK_Aksioma'),
+(2, 'JK_Morali'),
+(3, 'JK_Nutella'),
+(4, 'JK_Aksioma'),
+(5, 'JK_Morali'),
+(6, 'JK_Nutella');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `product`
+--
+-- Создание: Май 13 2022 г., 14:42
+-- Последнее обновление: Май 13 2022 г., 14:46
+--
+
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `id_product` int(25) NOT NULL,
+  `kolvo` varchar(25) NOT NULL,
+  `dataprodaji` datetime NOT NULL,
+  `nazvanieproduct` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `product`
+--
+
+INSERT INTO `product` (`id_product`, `kolvo`, `dataprodaji`, `nazvanieproduct`) VALUES
+(1, '1', '2022-05-04 18:44:41', 'Videokarta'),
+(2, '1', '2022-05-19 18:45:10', 'Shkaf'),
+(3, '1', '2022-04-11 18:45:10', 'Klaviatura'),
+(4, '1', '2022-05-04 18:44:41', 'Videokarta'),
+(5, '1', '2022-05-19 18:45:10', 'Shkaf'),
+(6, '1', '2022-04-11 18:45:10', 'Klaviatura');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `sotrydniki`
+--
+-- Создание: Май 13 2022 г., 14:42
+-- Последнее обновление: Май 13 2022 г., 14:47
+--
+
+DROP TABLE IF EXISTS `sotrydniki`;
+CREATE TABLE `sotrydniki` (
+  `id_sotrydniki` int(25) NOT NULL,
+  `FIO` varchar(11) NOT NULL,
+  `doljnost` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `sotrydniki`
+--
+
+INSERT INTO `sotrydniki` (`id_sotrydniki`, `FIO`, `doljnost`) VALUES
+(1, 'Nikita Shar', 'Stajer'),
+(2, 'Polina Gaga', 'Menedger'),
+(3, 'Burin Vova ', 'Glav_Menedg'),
+(4, 'Nikita Shar', 'Stajer'),
+(5, 'Polina Gaga', 'Menedger'),
+(6, 'Burin Vova ', 'Glav_Menedg');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Texnika`
+--
+-- Создание: Май 13 2022 г., 14:42
+-- Последнее обновление: Май 13 2022 г., 14:51
+--
+
+DROP TABLE IF EXISTS `Texnika`;
+CREATE TABLE `Texnika` (
+  `id_texniki` int(25) NOT NULL,
+  `Nazvanie` varchar(11) NOT NULL,
+  `tip` varchar(11) NOT NULL,
+  `datavipyska` datetime NOT NULL,
+  `srokgarantii` date NOT NULL,
+  `price` varchar(11) NOT NULL,
+  `id_pokypateli` int(25) NOT NULL,
+  `id_sotrydniki` int(25) NOT NULL,
+  `id_postavshik` int(25) NOT NULL,
+  `id_product` int(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `Texnika`
+--
+
+INSERT INTO `Texnika` (`id_texniki`, `Nazvanie`, `tip`, `datavipyska`, `srokgarantii`, `price`, `id_pokypateli`, `id_sotrydniki`, `id_postavshik`, `id_product`) VALUES
+(1, 'Xolodilnik', 'Kyxnya', '2022-05-12 18:47:53', '2024-05-11', '10000', 3, 1, 1, 1),
+(2, 'Videokarta', 'Computer', '2022-05-19 18:47:53', '2024-05-28', '80000', 5, 2, 2, 2),
+(3, 'Tyrnik', 'Sport', '2022-05-22 18:47:53', '2023-05-16', '3000', 4, 3, 3, 3),
+(4, 'Xolodilnik', 'Kyxnya', '2022-05-12 18:47:53', '2024-05-11', '10000', 3, 1, 1, 1),
+(5, 'Videokarta', 'Computer', '2022-05-19 18:47:53', '2024-05-28', '80000', 5, 2, 2, 2),
+(6, 'Tyrnik', 'Sport', '2022-05-22 18:47:53', '2023-05-16', '3000', 4, 3, 3, 3);
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `pokypateli`
+--
+ALTER TABLE `pokypateli`
+  ADD PRIMARY KEY (`id_pokypateli`);
+
+--
+-- Индексы таблицы `postavshik`
+--
+ALTER TABLE `postavshik`
+  ADD PRIMARY KEY (`id_postavshika`);
+
+--
+-- Индексы таблицы `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`id_product`);
+
+--
+-- Индексы таблицы `sotrydniki`
+--
+ALTER TABLE `sotrydniki`
+  ADD PRIMARY KEY (`id_sotrydniki`);
+
+--
+-- Индексы таблицы `Texnika`
+--
+ALTER TABLE `Texnika`
+  ADD PRIMARY KEY (`id_texniki`),
+  ADD KEY `Texnika_fk0` (`id_pokypateli`),
+  ADD KEY `Texnika_fk1` (`id_sotrydniki`),
+  ADD KEY `Texnika_fk2` (`id_postavshik`),
+  ADD KEY `Texnika_fk3` (`id_product`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `pokypateli`
+--
+ALTER TABLE `pokypateli`
+  MODIFY `id_pokypateli` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `postavshik`
+--
+ALTER TABLE `postavshik`
+  MODIFY `id_postavshika` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `product`
+--
+ALTER TABLE `product`
+  MODIFY `id_product` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `sotrydniki`
+--
+ALTER TABLE `sotrydniki`
+  MODIFY `id_sotrydniki` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `Texnika`
+--
+ALTER TABLE `Texnika`
+  MODIFY `id_texniki` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `Texnika`
+--
+ALTER TABLE `Texnika`
+  ADD CONSTRAINT `Texnika_fk0` FOREIGN KEY (`id_pokypateli`) REFERENCES `pokypateli` (`id_pokypateli`),
+  ADD CONSTRAINT `Texnika_fk1` FOREIGN KEY (`id_sotrydniki`) REFERENCES `sotrydniki` (`id_sotrydniki`),
+  ADD CONSTRAINT `Texnika_fk2` FOREIGN KEY (`id_postavshik`) REFERENCES `postavshik` (`id_postavshika`),
+  ADD CONSTRAINT `Texnika_fk3` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
