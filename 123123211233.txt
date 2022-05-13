@@ -1,0 +1,25 @@
+1. Создайте запрос для вывода всех товаров
+назначение которых «Кухня»
+select t.id_texniki, t.tip, t.Nazvanie
+from Texnika t
+where
+t.tip like 'Kyxnya'
+
+
+2.Выберите номера и фамилий всех клиентов
+с группировкой по количеству покупаеммых групп товаров
+select p.id_pokypateli, t.id_texniki, p.FIO, t.Nazvanie
+from pokypateli p, Texnika t
+
+3.Выберите все товары. Исключите товары, которые так и не купили.
+select p.nazvanieproduct , po.FIO,
+( select count(1) from product p ) as vse,
+( select count(1) from product p  ) - count(p.id_product) as nekup
+from 
+product p, pokypateli po, Texnika t
+where
+t.id_product = p.id_product and 
+t.id_pokypateli = po.id_pokypateli
+
+
+group by p.nazvanieproduct , p.FIO
