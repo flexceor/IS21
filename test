@@ -1,0 +1,267 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.7
+-- https://www.phpmyadmin.net/
+--
+-- Хост: localhost
+-- Время создания: Май 16 2022 г., 16:36
+-- Версия сервера: 5.7.21-20-beget-5.7.21-20-1-log
+-- Версия PHP: 5.6.40
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- База данных: `bagdanzp_gordeev`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Bolnie`
+--
+-- Создание: Май 14 2022 г., 06:10
+--
+
+DROP TABLE IF EXISTS `Bolnie`;
+CREATE TABLE `Bolnie` (
+  `idBolnoy` int(25) NOT NULL,
+  `id_№_Polisa` int(25) NOT NULL,
+  `id_FIO_Bolnogo` varchar(255) NOT NULL,
+  `id_Bol_List` int(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Chas_Priema`
+--
+-- Создание: Май 14 2022 г., 06:10
+--
+
+DROP TABLE IF EXISTS `Chas_Priema`;
+CREATE TABLE `Chas_Priema` (
+  `idPriem` int(25) NOT NULL,
+  `id_FIO_Bolnogo` int(25) NOT NULL,
+  `id_Denb_Nedeli` int(25) NOT NULL,
+  `id_Vremya_Priema` int(25) NOT NULL,
+  `id_Kabinet` int(25) NOT NULL,
+  `id_ID_Vracha` int(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Diagnozi`
+--
+-- Создание: Май 14 2022 г., 06:10
+--
+
+DROP TABLE IF EXISTS `Diagnozi`;
+CREATE TABLE `Diagnozi` (
+  `id` int(25) NOT NULL,
+  `id_Fobia` varchar(255) NOT NULL,
+  `id_Bol_List` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Kabinet`
+--
+-- Создание: Май 14 2022 г., 06:10
+--
+
+DROP TABLE IF EXISTS `Kabinet`;
+CREATE TABLE `Kabinet` (
+  `idKab` int(25) NOT NULL,
+  `id_Kabinet` int(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Personal`
+--
+-- Создание: Май 14 2022 г., 06:10
+--
+
+DROP TABLE IF EXISTS `Personal`;
+CREATE TABLE `Personal` (
+  `idPers` int(25) NOT NULL,
+  `id_ID_Vracha` int(25) NOT NULL,
+  `id_FIO` int(25) NOT NULL,
+  `id_Specializacia` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Posechenie`
+--
+-- Создание: Май 14 2022 г., 06:10
+--
+
+DROP TABLE IF EXISTS `Posechenie`;
+CREATE TABLE `Posechenie` (
+  `idPosech` int(25) NOT NULL,
+  `id_FIO_Bolnogo` varchar(255) NOT NULL,
+  `id_№_Polisa` int(25) NOT NULL,
+  `id_Data_Priema` int(25) NOT NULL,
+  `id_Vremya_Priema` int(25) NOT NULL,
+  `id_FIO_Vracha` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Specializacia`
+--
+-- Создание: Май 14 2022 г., 06:10
+--
+
+DROP TABLE IF EXISTS `Specializacia`;
+CREATE TABLE `Specializacia` (
+  `idSpec` int(25) NOT NULL,
+  `id_Specializacia` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `Bolnie`
+--
+ALTER TABLE `Bolnie`
+  ADD PRIMARY KEY (`idBolnoy`),
+  ADD KEY `Bolnie_fk0` (`id_Bol_List`);
+
+--
+-- Индексы таблицы `Chas_Priema`
+--
+ALTER TABLE `Chas_Priema`
+  ADD PRIMARY KEY (`idPriem`),
+  ADD KEY `Chas_Priema_fk0` (`id_FIO_Bolnogo`),
+  ADD KEY `Chas_Priema_fk1` (`id_Kabinet`),
+  ADD KEY `Chas_Priema_fk2` (`id_ID_Vracha`);
+
+--
+-- Индексы таблицы `Diagnozi`
+--
+ALTER TABLE `Diagnozi`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `Kabinet`
+--
+ALTER TABLE `Kabinet`
+  ADD PRIMARY KEY (`idKab`);
+
+--
+-- Индексы таблицы `Personal`
+--
+ALTER TABLE `Personal`
+  ADD PRIMARY KEY (`idPers`),
+  ADD KEY `Personal_fk0` (`id_Specializacia`);
+
+--
+-- Индексы таблицы `Posechenie`
+--
+ALTER TABLE `Posechenie`
+  ADD PRIMARY KEY (`idPosech`),
+  ADD KEY `Posechenie_fk0` (`id_№_Polisa`);
+
+--
+-- Индексы таблицы `Specializacia`
+--
+ALTER TABLE `Specializacia`
+  ADD PRIMARY KEY (`idSpec`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `Bolnie`
+--
+ALTER TABLE `Bolnie`
+  MODIFY `idBolnoy` int(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `Chas_Priema`
+--
+ALTER TABLE `Chas_Priema`
+  MODIFY `idPriem` int(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `Diagnozi`
+--
+ALTER TABLE `Diagnozi`
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `Kabinet`
+--
+ALTER TABLE `Kabinet`
+  MODIFY `idKab` int(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `Personal`
+--
+ALTER TABLE `Personal`
+  MODIFY `idPers` int(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `Posechenie`
+--
+ALTER TABLE `Posechenie`
+  MODIFY `idPosech` int(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `Specializacia`
+--
+ALTER TABLE `Specializacia`
+  MODIFY `idSpec` int(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `Bolnie`
+--
+ALTER TABLE `Bolnie`
+  ADD CONSTRAINT `Bolnie_fk0` FOREIGN KEY (`id_Bol_List`) REFERENCES `Diagnozi` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `Chas_Priema`
+--
+ALTER TABLE `Chas_Priema`
+  ADD CONSTRAINT `Chas_Priema_fk0` FOREIGN KEY (`id_FIO_Bolnogo`) REFERENCES `Posechenie` (`idPosech`),
+  ADD CONSTRAINT `Chas_Priema_fk1` FOREIGN KEY (`id_Kabinet`) REFERENCES `Kabinet` (`idKab`),
+  ADD CONSTRAINT `Chas_Priema_fk2` FOREIGN KEY (`id_ID_Vracha`) REFERENCES `Personal` (`idPers`);
+
+--
+-- Ограничения внешнего ключа таблицы `Personal`
+--
+ALTER TABLE `Personal`
+  ADD CONSTRAINT `Personal_fk0` FOREIGN KEY (`id_Specializacia`) REFERENCES `Specializacia` (`idSpec`);
+
+--
+-- Ограничения внешнего ключа таблицы `Posechenie`
+--
+ALTER TABLE `Posechenie`
+  ADD CONSTRAINT `Posechenie_fk0` FOREIGN KEY (`id_№_Polisa`) REFERENCES `Bolnie` (`idBolnoy`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
